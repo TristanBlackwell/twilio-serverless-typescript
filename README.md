@@ -65,3 +65,15 @@ Push to `main` branch OR _workflow_dispatch_.
 | TWILIO_FUNCTIONS_SERVICE_SID | SID of the functions service that should be promoted from dev to prod. Most likely this will be a prior dev deployment | Y        |
 
 This action will attempt to promote an existing functions service, matching the `TWILIO_FUNCTIONS_SERVICE_SID` environment variable. Moving it from a `dev` environment deployed in the dev action to a production environment instead.
+
+### Caveats
+
+Since the deployments are handled within GitHub, the environment variables from a local environment are not accessible to deploy. These will need to be manually entered into the Twilio Console once the service has deployed. These persist across future deploys and different environments so only need to be done at the outset or when variables are added/removed.
+
+## Development
+
+The [/functions](/src/functions/) and [/assets](/src/assets/) folders hold each type respectively. Suffixing files with `.protected` or `.private` will control access levels as required.
+
+[types/index.ts](/src/types/index.ts) contains a `BaseContext` type. This maps to your environment variables for type safety in development. Note the optional mark allowing you to handle the event that these may not always be present. Each function holds an `Event` interface which provides typing capability for parameters passed to the function. This could be a whole range of things depending how what's calling your functions but if you are using internal Twilio webhooks you may be able to find types for these in the runtime-types package.
+
+The [private-message](/src/functions/private-message.ts) function shows briefly how you can accessible assets from functions within the same service.
