@@ -28,7 +28,7 @@ jobs:
         run: grep -o -m1 '\ZS\w*' deploy-output.txt > service-sid.txt
 
       - name: Save Service SID artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: service-sid
           path: ./service-sid.txt
